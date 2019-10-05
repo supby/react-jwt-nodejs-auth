@@ -1,8 +1,8 @@
 import jwt = require('jsonwebtoken');
-import config from './config';
+import config from '../config';
 import { Request, Response } from 'express';
 
-const checkToken = (req: Request, res: Response, next: any) => {
+export default (req: Request, res: Response, next: any) => {
   // Express headers are auto converted to lowercase
   //   let token: string =
   //     req.headers['x-access-token'] || req.headers.authorization;
@@ -27,7 +27,8 @@ const checkToken = (req: Request, res: Response, next: any) => {
           message: 'Token is not valid',
         });
       } else {
-        req.decoded = decoded;
+        //req.decoded = decoded;
+        console.log(decoded);
         next();
       }
     });
@@ -37,8 +38,4 @@ const checkToken = (req: Request, res: Response, next: any) => {
       message: 'Auth token is not supplied',
     });
   }
-};
-
-exports = {
-  checkToken,
 };

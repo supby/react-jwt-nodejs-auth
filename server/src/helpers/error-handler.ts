@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-function errorHandler(err: any, req: Request, res: Response, next: any) {
+export default (err: any, req: Request, res: Response, next: any) => {
     if (typeof (err) === 'string') {
         // custom application error
         return res.status(400).json({ message: err });
@@ -13,6 +13,4 @@ function errorHandler(err: any, req: Request, res: Response, next: any) {
 
     // default to 500 server error
     return res.status(500).json({ message: err.message });
-}
-
-export default errorHandler;
+};
