@@ -3,9 +3,6 @@ import config from '../config';
 import { Request, Response } from 'express';
 
 export default (req: Request, res: Response, next: any) => {
-  // Express headers are auto converted to lowercase
-  //   let token: string =
-  //     req.headers['x-access-token'] || req.headers.authorization;
   if (!req.headers.authorization) {
     return res.json({
         success: false,
