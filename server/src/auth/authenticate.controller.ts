@@ -7,11 +7,10 @@ const router = express.Router();
 
 // routes
 router.post('/', async (req: Request, res: Response, next) => {
-  console.log(req.body);
-
   const userAuthInput = req.body as IUserAuthInput;
-  if (!userAuthInput) {
-    res.status(400);
+  if (!userAuthInput || !userAuthInput.username || !userAuthInput.password) {
+    res.status(400).json();
+    return;
   }
 
   const user = await authenticate(userAuthInput.username, userAuthInput.password);
