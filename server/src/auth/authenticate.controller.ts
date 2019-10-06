@@ -1,21 +1,25 @@
 import express = require('express');
-import { IUser } from '../users/user';
+import { Request, Response } from 'express';
+import { IUserAuthInput } from '../users/user';
 import { authenticate } from './authenticate.service';
 
 const router = express.Router();
 
 // routes
-router.post('/', (req, res, next) => {
-  console.log('authenticate request');
+router.post('/', async (req: Request, res: Response, next) => {
   console.log(req.body);
-//   userService
-//     .authenticate(req.body)
-//     .then(user: IUser =>
-//       user
-//         ? res.json(user)
-//         : res.status(400).json({ message: "Username or password is incorrect" })
-//     )
-//     .catch((err: any) => next(err));
+
+  const userAuthInput = req.body as IUserAuthInput;
+  if (!userAuthInput) {
+    res.status(400);
+  }
+
+  const user = await authenticate(userAuthInput.username, userAuthInput.password);
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(400).json({ message: 'Username or password is incorrect' });
+  }
 });
 
 export default router;
